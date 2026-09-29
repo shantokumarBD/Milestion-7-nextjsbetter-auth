@@ -10,23 +10,36 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-import { signUp } from "@/lib/auth-client";
+import { authClient, signUp } from "@/lib/auth-client";
 
 const SignUpPage = () => {
-  const onSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
     // Convert FormData to plain object
 
     console.log(data);
-    const {data: resdata, error} = await signUp.email({
+    const { data: resdata, error } = await signUp.email({
       name: data.name as string,
       email: data.email as string,
-      password: data.password as string
-    })
-    console.log(resdata, error)
+      password: data.password as string,
+    });
+
+    console.log(resdata, error);
   };
+
+  const handleGoolgeSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
+  const handleGithubSignIn = async () => {
+    const data = await authClient.signIn.social({
+        provider: "github"
+    })
+}
 
   return (
     <div>
@@ -94,6 +107,9 @@ const SignUpPage = () => {
           </Button>
         </div>
       </Form>
+      <br />
+      <Button onClick={handleGoolgeSignIn}>Sign In with Google</Button>
+      <Button onClick={handleGithubSignIn}>Sign In with GitHub</Button>
     </div>
   );
 };

@@ -30,7 +30,7 @@ export default function Navbar() {
           <Link href="/sign-in" className="block py-2">
             Login
           </Link>
-          <Button className="/sign-up">Sign Up</Button>
+          <Link href="/sign-up">Sign Up</Link>
         </>
       )}
     </>
