@@ -1,24 +1,38 @@
 "use client";
 import { useState } from "react";
 import { Link, Button } from "@heroui/react";
-import { useSession } from "@/lib/auth-client";
+import { signOut, useSession } from "@/lib/auth-client";
+import { Spinner } from "@heroui/react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { data: session } = useSession();
+  const { data: session, isPending } = useSession();
+
+  if (isPending) {
+    return (
+      <div className="flex flex-col items-center gap-2">
+        <Spinner className="animate-[spin_0.4s_linear_infinite] motion-reduce:animate-none" />
+        <span className="text-xs text-muted"></span>
+      </div>
+    );
+  }
 
   const navlink = (
     <>
-      {session?.user ? <>
-      <span>Welcome, {session.user?.name}</span>
-      <Button>Sing Out</Button>
-      </> : <>
-        <Link href="#" className="block py-2">
-        Login
-      </Link>
-      <Button className="">Sign Up</Button>
-      </>}
+      {session?.user ? (
+        <>
+          <span>Welcome, {session.user?.name}</span>
+          <Button onClick={() => signOut()}>Sing Out</Button>
+        </>
+      ) : (
+        <>
+          <Link href="/sign-in" className="block py-2">
+            Login
+          </Link>
+          <Button className="/sign-up">Sign Up</Button>
+        </>
+      )}
     </>
   );
 
