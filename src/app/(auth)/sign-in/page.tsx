@@ -12,6 +12,7 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import Link from "next/link";
 import { useState } from "react";
 
 const SignInPage = () => {
@@ -100,6 +101,8 @@ const SignInPage = () => {
           </Description>
           <FieldError />
         </TextField>
+
+        <p>Forgot Password <small className="text-blue-400"><Link  href={"/forgot-password"}>Click here</Link></small></p>
 
         <div className="flex gap-2">
           <Button type="submit">Submit</Button>
